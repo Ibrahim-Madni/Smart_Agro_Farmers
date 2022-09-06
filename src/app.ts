@@ -3,7 +3,7 @@ import mongoose  from 'mongoose';
 import compression from 'compression';
 import cors from 'cors';
 import morgan from 'morgan';
-import Controller from '@/utils/interfaces/controller.interface';
+import Controller from '@/utils/Interfaces/controller.interface';
 import ErrorMiddleware from '@/middleware/error.middleware';
 import helmet from 'helmet';
 
@@ -15,10 +15,10 @@ class App{
         this.express=express();
         this.port=port;
 
-        this.initializeDatabaseConnection();
+        this.InitializeDatabaseConection();
         this.initializeMiddleware();
-        this.initializeControllers(controllers);
-        this.initializeErrorHandling();
+        this.initalizeControllers(controllers);
+        this.InitializeErrorHandling();
     }
     private initializeMiddleware(): void {
         this.express.use(helmet());
@@ -37,7 +37,7 @@ class App{
         }
  )   }
     private InitializeErrorHandling() : void {
-        this.express.use(ErrorMiddleware());
+        this.express.use(ErrorMiddleware);
     }
     private InitializeDatabaseConection(): void {
         const {MONGO_USER, MONGO_PASSWORD, MONGO_PATH} = process.env
@@ -46,9 +46,11 @@ class App{
             'mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}'
         )
     }
-    public listen(): coid {
+    public listen(): void {
         this.express.listen(this.port, ()=>{
-            
-        })
+            console.log('App listening on port ${this.port}'); 
+
+        });
     }
 }
+export default App;
